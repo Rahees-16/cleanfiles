@@ -1,40 +1,49 @@
 # CleanFiles — File Manager & Cleaner
 
-A powerful file manager and storage cleaner for Android, built with Kotlin and Jetpack Compose.
+A powerful file manager and storage cleaner for Android.
 
 ## Features
 
-- **File Browser** — Grid/list view, sort by name/date/size/type, breadcrumb navigation, multi-select
-- **Storage Analysis** — Visual pie chart breakdown of storage usage by category
-- **Junk Cleaner** — Scan and clean: app cache, temp files, old APKs, empty folders, thumbnails
-- **Duplicate Finder** — Find duplicate files using MD5 hashing with preview before delete
-- **Category View** — Browse by type: Images, Videos, Audio, Documents, APKs, Downloads
-- **File Operations** — Copy, move, rename, delete, compress (zip), extract, share
-- **Search** — File name search with type and size filters
-- **Favorites & Recent** — Bookmark folders and access recent files quickly
+### File Browser
+- Grid/list toggle view with sort by name, date, size, type
+- Breadcrumb navigation with folder sidebar on tablets
+- Multi-select for batch operations (copy, move, delete, zip, share)
+- New folder creation, rename, paste
+
+### Storage Analysis
+- Visual pie chart breakdown (Compose Canvas with animation)
+- Category-by-category storage usage
+- Available vs used space indicator
+
+### Cleaning Tools
+- **Junk Cleaner**: Scan and clean app cache, temp files, old APKs, empty folders, thumbnails
+- **Duplicate Finder**: MD5 hash-based duplicate detection with preview, keep newest/oldest
+- **WhatsApp Cleaner**: Scan WhatsApp media across 7 categories (Images, Videos, Voice Notes, Documents, Stickers, GIFs, Status)
+
+### File Management
+- **Category Views**: Images, Videos, Audio, Documents, APKs, Downloads
+- **Trash Bin**: 30-day recovery with restore and permanent delete
+- **Search**: File name search with type and size filters
+- **Quick Actions**: Copy, move, rename, delete, compress (zip), extract, share
+
+### User Experience
+- Onboarding screen (3-slide first launch)
+- Storage tips on home screen (cache warnings, APK alerts)
+- Responsive 2x2 quick action grid
+- Material3 + dynamic colors, Light/Dark mode
+- Responsive tablet layouts (folder sidebar, adaptive grids)
+- In-app language selector (14 languages)
+- AdMob banner ad
+
+### Internationalization
+14 languages: English, Spanish, French, German, Hindi, Arabic, Malay, Marathi, Tamil, Malayalam, Telugu, Kannada, Gujarati, Punjabi
 
 ## Tech Stack
+Kotlin, Jetpack Compose, Material3, Hilt, Room, Coil, DataStore, AdMob
 
-- **Language:** Kotlin
-- **UI:** Jetpack Compose + Material3 (Material You dynamic colors)
-- **Architecture:** MVVM (ViewModel + Repository)
-- **DI:** Hilt
-- **Database:** Room
-- **Images:** Coil (thumbnails)
-- **Charts:** Custom Compose Canvas pie chart
-- **Settings:** DataStore Preferences
-- **Min SDK:** 26 | **Target SDK:** 35
+**Min SDK:** 26 | **Target SDK:** 35
 
 ## Building
-
 ```bash
 ./gradlew assembleDebug
 ```
-
-## Screenshots
-
-_Coming soon_
-
-## License
-
-All rights reserved.
