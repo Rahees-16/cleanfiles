@@ -1,5 +1,9 @@
 package com.rahees.cleanfiles.ui.settings
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +37,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -151,6 +156,71 @@ fun SettingsScreen(
                 Switch(
                     checked = showHiddenFiles,
                     onCheckedChange = { scope.launch { viewModel.setShowHiddenFiles(it) } }
+                )
+            }
+
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+            // Language section
+            Text(
+                text = "Language",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
+            )
+
+            val context = LocalContext.current
+            var showLanguageDialog by remember { mutableStateOf(false) }
+
+            val currentLocale = remember {
+                val locales = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    context.resources.configuration.locales
+                } else {
+                    @Suppress("DEPRECATION")
+                    android.os.LocaleList.forLanguageTags(
+                        context.resources.configuration.locales.toLanguageTags()
+                    )
+                }
+                locales.get(0)?.displayLanguage ?: "System Default"
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
+                            intent.data = Uri.parse("package:${context.packageName}")
+                            context.startActivity(intent)
+                        } else {
+                            showLanguageDialog = true
+                        }
+                    }
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("App Language", style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        text = currentLocale,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            if (showLanguageDialog) {
+                AlertDialog(
+                    onDismissRequest = { showLanguageDialog = false },
+                    title = { Text("Language") },
+                    text = {
+                        Text("On this Android version, please change the app language in your device's system settings:\nSettings > Apps > CleanFiles > Language")
+                    },
+                    confirmButton = {
+                        TextButton(onClick = { showLanguageDialog = false }) {
+                            Text("OK")
+                        }
+                    }
                 )
             }
 
