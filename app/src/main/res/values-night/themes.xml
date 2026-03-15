@@ -3,7 +3,7 @@
     <style name="Theme.CleanFiles" parent="android:Theme.Material.Light.NoActionBar" />
 
     <style name="Theme.CleanFiles.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#2E7D32</item>
+        <item name="windowSplashScreenBackground">#1B5E20</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name="postSplashScreenTheme">@style/Theme.CleanFiles</item>
