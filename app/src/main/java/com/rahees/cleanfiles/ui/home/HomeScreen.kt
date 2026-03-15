@@ -199,63 +199,70 @@ fun HomeScreen(
                 StorageBar(storageInfo = storageInfo)
             }
 
+            // Quick actions — 2x2 grid for responsive layout
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    FilledTonalButton(
-                        onClick = onNavigateToCleaner,
-                        modifier = Modifier.weight(1f)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Icon(
-                            Icons.Filled.CleaningServices,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Clean Junk")
+                        FilledTonalButton(
+                            onClick = onNavigateToCleaner,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Icon(
+                                Icons.Filled.CleaningServices,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text("Clean Junk", maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        }
+                        FilledTonalButton(
+                            onClick = onNavigateToDuplicates,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Icon(
+                                Icons.Filled.ContentCopy,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text("Duplicates", maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        }
                     }
-                    FilledTonalButton(
-                        onClick = onNavigateToDuplicates,
-                        modifier = Modifier.weight(1f)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Icon(
-                            Icons.Filled.ContentCopy,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Duplicates")
+                        FilledTonalButton(
+                            onClick = onNavigateToAnalysis,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Icon(
+                                Icons.Filled.PieChart,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text("Analysis", maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        }
+                        FilledTonalButton(
+                            onClick = onNavigateToWhatsAppCleaner,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Icon(
+                                Icons.Filled.CleaningServices,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp),
+                                tint = androidx.compose.ui.graphics.Color(0xFF25D366)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text("WhatsApp", maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        }
                     }
-                    FilledTonalButton(
-                        onClick = onNavigateToAnalysis,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(
-                            Icons.Filled.PieChart,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Analysis")
-                    }
-                }
-            }
-
-            item {
-                FilledTonalButton(
-                    onClick = onNavigateToWhatsAppCleaner,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        Icons.Filled.CleaningServices,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp),
-                        tint = androidx.compose.ui.graphics.Color(0xFF25D366)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("WhatsApp Cleaner")
                 }
             }
 
