@@ -61,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rahees.cleanfiles.data.model.FileCategory
+import com.rahees.cleanfiles.ui.components.BannerAd
 import com.rahees.cleanfiles.ui.components.CategoryCard
 import com.rahees.cleanfiles.ui.components.StorageBar
 import com.rahees.cleanfiles.util.FileUtils
@@ -342,6 +343,10 @@ fun HomeScreen(
                         }
                     }
                 }
+            }
+
+            item {
+                BannerAd()
             }
         }
     }
