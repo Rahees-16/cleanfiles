@@ -78,4 +78,6 @@ dependencies {
     implementation(libs.datastore.preferences)
 
     implementation(libs.coil.compose)
+
+    implementation(libs.play.services.ads)
 }

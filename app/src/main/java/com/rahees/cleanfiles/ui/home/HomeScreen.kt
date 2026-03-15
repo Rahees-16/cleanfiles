@@ -75,6 +75,7 @@ fun HomeScreen(
     onNavigateToDuplicates: () -> Unit,
     onNavigateToSearch: () -> Unit,
     onNavigateToSettings: () -> Unit,
+    onNavigateToWhatsAppCleaner: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val storageInfo by viewModel.storageInfo.collectAsStateWithLifecycle()
@@ -238,6 +239,22 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.width(4.dp))
                         Text("Analysis")
                     }
+                }
+            }
+
+            item {
+                FilledTonalButton(
+                    onClick = onNavigateToWhatsAppCleaner,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        Icons.Filled.CleaningServices,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                        tint = androidx.compose.ui.graphics.Color(0xFF25D366)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("WhatsApp Cleaner")
                 }
             }
 

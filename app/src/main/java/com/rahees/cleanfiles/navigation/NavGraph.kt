@@ -28,6 +28,7 @@ import com.rahees.cleanfiles.ui.onboarding.OnboardingScreen
 import com.rahees.cleanfiles.ui.search.SearchScreen
 import com.rahees.cleanfiles.ui.settings.SettingsScreen
 import com.rahees.cleanfiles.ui.trash.TrashScreen
+import com.rahees.cleanfiles.ui.whatsapp.WhatsAppCleanerScreen
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -44,6 +45,7 @@ object Routes {
     const val TRASH = "trash"
     const val SETTINGS = "settings"
     const val ONBOARDING = "onboarding"
+    const val WHATSAPP_CLEANER = "whatsapp_cleaner"
 
     fun browser(path: String): String = "browser/${Uri.encode(path)}"
     fun category(type: FileCategory): String = "category/${type.name}"
@@ -99,6 +101,9 @@ fun CleanFilesNavGraph(navController: NavHostController) {
                 },
                 onNavigateToSettings = {
                     navController.navigate(Routes.SETTINGS)
+                },
+                onNavigateToWhatsAppCleaner = {
+                    navController.navigate(Routes.WHATSAPP_CLEANER)
                 }
             )
         }
@@ -162,6 +167,12 @@ fun CleanFilesNavGraph(navController: NavHostController) {
 
         composable(Routes.TRASH) {
             TrashScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Routes.WHATSAPP_CLEANER) {
+            WhatsAppCleanerScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }
