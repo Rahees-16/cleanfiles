@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -60,6 +61,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
@@ -219,6 +221,14 @@ fun BrowserScreen(
             }
         }
     ) { paddingValues ->
+        val screenWidthDp = LocalConfiguration.current.screenWidthDp
+        val isExpanded = screenWidthDp > 840
+        val gridColumns = when {
+            screenWidthDp > 840 -> 5
+            screenWidthDp > 600 -> 4
+            else -> 3
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -249,9 +259,101 @@ fun BrowserScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
+            } else if (isExpanded) {
+                // Tablet: folder tree + file list side by side
+                Row(modifier = Modifier.fillMaxSize()) {
+                    // Folder tree sidebar
+                    LazyColumn(
+                        modifier = Modifier
+                            .width(240.dp)
+                            .fillMaxHeight()
+                            .padding(8.dp)
+                    ) {
+                        val folders = files.filter { it.isDirectory }
+                        items(folders, key = { it.path }) { fileItem ->
+                            FileListItem(
+                                fileItem = fileItem,
+                                isSelected = selectedPaths.contains(fileItem.path),
+                                isSelectionMode = isSelectionMode,
+                                onClick = {
+                                    if (isSelectionMode) {
+                                        viewModel.toggleSelection(fileItem.path)
+                                    } else {
+                                        viewModel.navigateTo(fileItem.path)
+                                        viewModel.onFileOpened(fileItem.path, fileItem.name)
+                                    }
+                                },
+                                onLongClick = { viewModel.toggleSelection(fileItem.path) }
+                            )
+                            HorizontalDivider(
+                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                            )
+                        }
+                    }
+
+                    // Vertical divider
+                    androidx.compose.material3.VerticalDivider()
+
+                    // File list
+                    if (isGridView) {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(gridColumns - 1),
+                            contentPadding = PaddingValues(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            items(files, key = { it.path }) { fileItem ->
+                                FileGridItem(
+                                    fileItem = fileItem,
+                                    isSelected = selectedPaths.contains(fileItem.path),
+                                    isSelectionMode = isSelectionMode,
+                                    onClick = {
+                                        if (isSelectionMode) {
+                                            viewModel.toggleSelection(fileItem.path)
+                                        } else if (fileItem.isDirectory) {
+                                            viewModel.navigateTo(fileItem.path)
+                                            viewModel.onFileOpened(fileItem.path, fileItem.name)
+                                        } else {
+                                            openFile(context, fileItem)
+                                            viewModel.onFileOpened(fileItem.path, fileItem.name)
+                                        }
+                                    },
+                                    onLongClick = { viewModel.toggleSelection(fileItem.path) }
+                                )
+                            }
+                        }
+                    } else {
+                        LazyColumn(modifier = Modifier.weight(1f)) {
+                            items(files, key = { it.path }) { fileItem ->
+                                FileListItem(
+                                    fileItem = fileItem,
+                                    isSelected = selectedPaths.contains(fileItem.path),
+                                    isSelectionMode = isSelectionMode,
+                                    onClick = {
+                                        if (isSelectionMode) {
+                                            viewModel.toggleSelection(fileItem.path)
+                                        } else if (fileItem.isDirectory) {
+                                            viewModel.navigateTo(fileItem.path)
+                                            viewModel.onFileOpened(fileItem.path, fileItem.name)
+                                        } else {
+                                            openFile(context, fileItem)
+                                            viewModel.onFileOpened(fileItem.path, fileItem.name)
+                                        }
+                                    },
+                                    onLongClick = { viewModel.toggleSelection(fileItem.path) }
+                                )
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(start = 68.dp),
+                                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                                )
+                            }
+                        }
+                    }
+                }
             } else if (isGridView) {
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
+                    columns = GridCells.Fixed(gridColumns),
                     contentPadding = PaddingValues(8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
