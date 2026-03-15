@@ -8,6 +8,7 @@ import androidx.room.Room
 import com.rahees.cleanfiles.data.local.AppDatabase
 import com.rahees.cleanfiles.data.local.FavoriteDao
 import com.rahees.cleanfiles.data.local.RecentDao
+import com.rahees.cleanfiles.data.local.TrashDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +29,7 @@ object AppModule {
             context,
             AppDatabase::class.java,
             "cleanfiles_db"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides
@@ -39,6 +40,11 @@ object AppModule {
     @Provides
     fun provideRecentDao(database: AppDatabase): RecentDao {
         return database.recentDao()
+    }
+
+    @Provides
+    fun provideTrashDao(database: AppDatabase): TrashDao {
+        return database.trashDao()
     }
 
     @Provides
